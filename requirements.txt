@@ -1,2 +1,4 @@
 pyside6
-pyqt5
+cryptography
+argparse
+pytest
