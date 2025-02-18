@@ -17,5 +17,6 @@ def password_gen(pass_len: int = config.DEFAULT_LENGTH) -> str:
 
     # Generate a random password of the specified length using secrets.choice for better security
     password = ''.join(secrets.choice(character) for _ in range(pass_len))
+    print("Testting: " + password)
     
     return password  # Return the generated password
