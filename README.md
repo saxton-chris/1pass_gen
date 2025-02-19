@@ -14,3 +14,11 @@ I first created a simple password generator using the `string` and `secrets` mod
 4. Space
 
 The `password_gen` function takes in a password length and uses the `secrets` module to randomly select characters to make a string of the correct length.
+
+## Begin UI
+
+Using Qt-Designer I build a simple UI. It consists of a label, text field, and button. When the button is pressed it checks that the value in the text box is a positive integer. If it is, it displays the password in the text box and copies it to your clipboard to paste in the application or website you are using.
+
+## UI Enhancements
+
+I have updated the UI to add check boxes to list different character sets the user may want to include in their password. All of them default to include with the exception of `space`.

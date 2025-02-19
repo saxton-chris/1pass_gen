@@ -13,10 +13,9 @@ def password_gen(pass_len: int = config.DEFAULT_LENGTH) -> str:
     str: A randomly generated password containing letters, digits, punctuation, and spaces.
     """
     # Define the character pool: uppercase & lowercase letters, digits, punctuation, and space
-    character = string.ascii_letters + string.punctuation + string.digits + ' '
+    character = string.ascii_uppercase + string.ascii_lowercase + string.punctuation + string.digits + ' '
 
     # Generate a random password of the specified length using secrets.choice for better security
     password = ''.join(secrets.choice(character) for _ in range(pass_len))
-    print("Testting: " + password)
     
     return password  # Return the generated password
