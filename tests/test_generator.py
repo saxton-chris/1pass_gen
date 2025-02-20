@@ -38,7 +38,7 @@ def test_no_number():
     assert all(char not in string.digits for char in no_number)
 
 def test_no_punctuation():
-    no_punc_pass = gen.password_gen(specail=False, space=True)  # Generate password without punctuation
+    no_punc_pass = gen.password_gen(special=False, space=True)  # Generate password without punctuation
     assert all(char not in string.punctuation for char in no_punc_pass)
 
 def test_no_space():

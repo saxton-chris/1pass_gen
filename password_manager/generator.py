@@ -6,7 +6,7 @@ def password_gen(pass_len: int = config.DEFAULT_LENGTH,
                  upper: bool = True,
                  lower: bool = True,
                  numbers: bool = True,
-                 specail: bool = True,
+                 special: bool = True,
                  space: bool = False) -> str:
     """
     Generates a secure random password with the specified length.
@@ -24,7 +24,7 @@ def password_gen(pass_len: int = config.DEFAULT_LENGTH,
         character += string.ascii_lowercase
     if numbers:
         character += string.digits
-    if specail:
+    if special:
         character += string.punctuation
     if space:
         character += ' '
