@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'PasswordGenerator.ui'
+##
+## Created by: Qt User Interface Compiler version 6.8.2
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -8,82 +18,62 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QCheckBox, QHBoxLayout, QLabel,
     QLineEdit, QMainWindow, QMenuBar, QPushButton,
     QSizePolicy, QStatusBar, QVBoxLayout, QWidget)
-from password_manager import config
-from password_manager import generator as gen
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        """
-        This class defines the UI layout and behavior for the Password Generator application
-        using PySide6.
-        """
-        # Define default fonts
-        defaultFont = QFont()
-        defaultFont.setFamilies([u"Georgia"])
-
-        boldFont = QFont()
-        boldFont.setFamilies([u"Georgia"])
-        boldFont.setBold(True)
-        
-        # Set up main window properties
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(474, 336)
+        MainWindow.resize(475, 337)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-
-        # Button for generating password
         self.passGenButton = QPushButton(self.centralwidget)
         self.passGenButton.setObjectName(u"passGenButton")
         self.passGenButton.setGeometry(QRect(310, 260, 139, 26))
-        self.passGenButton.setFont(defaultFont)
-        self.passGenButton.clicked.connect(self.generate_password)
-
-        # Layout for password length input
+        font = QFont()
+        font.setFamilies([u"Georgia"])
+        self.passGenButton.setFont(font)
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(11, 37, 269, 28))
-        self.layoutWidget.setFont(defaultFont)
-
+        self.layoutWidget.setFont(font)
         self.passLengthLayout = QHBoxLayout(self.layoutWidget)
         self.passLengthLayout.setObjectName(u"passLengthLayout")
         self.passLengthLayout.setContentsMargins(0, 0, 0, 0)
-
         self.passPromptLabel = QLabel(self.layoutWidget)
         self.passPromptLabel.setObjectName(u"passPromptLabel")
-        self.passPromptLabel.setFont(boldFont)
+        font1 = QFont()
+        font1.setFamilies([u"Georgia"])
+        font1.setBold(True)
+        self.passPromptLabel.setFont(font1)
 
         self.passLengthLayout.addWidget(self.passPromptLabel)
 
         self.passLengthField = QLineEdit(self.layoutWidget)
         self.passLengthField.setObjectName(u"passLengthField")
-        self.passLengthField.setFont(defaultFont)
-        self.passLengthField.returnPressed.connect(self.generate_password)
+        self.passLengthField.setFont(font)
 
         self.passLengthLayout.addWidget(self.passLengthField)
 
-        # Main container for input widgets
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
         self.widget.setGeometry(QRect(10, 72, 445, 172))
         self.inputLayout = QHBoxLayout(self.widget)
         self.inputLayout.setObjectName(u"inputLayout")
         self.inputLayout.setContentsMargins(0, 0, 0, 0)
-
-        # Character type selection layout
         self.charTypeLayout = QVBoxLayout()
         self.charTypeLayout.setObjectName(u"charTypeLayout")
-
         self.charTypeLabel = QLabel(self.widget)
         self.charTypeLabel.setObjectName(u"charTypeLabel")
-        self.charTypeLabel.setFont(boldFont)
+        self.charTypeLabel.setFont(font1)
 
         self.charTypeLayout.addWidget(self.charTypeLabel)
 
-        # Checkboxes for character type selection
         self.upperCheck = QCheckBox(self.widget)
         self.upperCheck.setObjectName(u"upperCheck")
-        self.upperCheck.setFont(defaultFont)
+        font2 = QFont()
+        font2.setFamilies([u"Georgia"])
+        font2.setUnderline(False)
+        self.upperCheck.setFont(font2)
         self.upperCheck.setAutoFillBackground(False)
         self.upperCheck.setChecked(True)
 
@@ -91,39 +81,41 @@ class Ui_MainWindow(object):
 
         self.lowerCheck = QCheckBox(self.widget)
         self.lowerCheck.setObjectName(u"lowerCheck")
-        self.lowerCheck.setFont(defaultFont)
-        self.lowerCheck.setChecked(True)
+        self.lowerCheck.setFont(font)
+        self.lowerCheck.setChecked(False)
 
         self.charTypeLayout.addWidget(self.lowerCheck)
 
         self.numberCheck = QCheckBox(self.widget)
         self.numberCheck.setObjectName(u"numberCheck")
-        self.numberCheck.setFont(defaultFont)
-        self.numberCheck.setChecked(True)
+        self.numberCheck.setFont(font)
 
         self.charTypeLayout.addWidget(self.numberCheck)
 
         self.specialCheck = QCheckBox(self.widget)
         self.specialCheck.setObjectName(u"specialCheck")
-        self.specialCheck.setFont(defaultFont)
-        self.specialCheck.setChecked(True)
+        self.specialCheck.setFont(font)
 
         self.charTypeLayout.addWidget(self.specialCheck)
 
         self.spaceCheck = QCheckBox(self.widget)
         self.spaceCheck.setObjectName(u"spaceCheck")
-        self.spaceCheck.setFont(defaultFont)
+        self.spaceCheck.setFont(font)
 
         self.charTypeLayout.addWidget(self.spaceCheck)
+
 
         self.inputLayout.addLayout(self.charTypeLayout)
 
         self.onePassLayout = QVBoxLayout()
         self.onePassLayout.setObjectName(u"onePassLayout")
-        
         self.passInfoLabel = QLabel(self.widget)
         self.passInfoLabel.setObjectName(u"passInfoLabel")
-        self.passInfoLabel.setFont(boldFont)
+        font3 = QFont()
+        font3.setFamilies([u"Georgia"])
+        font3.setBold(True)
+        font3.setItalic(False)
+        self.passInfoLabel.setFont(font3)
 
         self.onePassLayout.addWidget(self.passInfoLabel)
 
@@ -139,23 +131,26 @@ class Ui_MainWindow(object):
 
         self.userLayout.addWidget(self.userTextbox)
 
+
         self.onePassLayout.addLayout(self.userLayout)
 
         self.passLayout = QHBoxLayout()
         self.passLayout.setObjectName(u"passLayout")
-
         self.passLabel = QLabel(self.widget)
         self.passLabel.setObjectName(u"passLabel")
-        self.passLabel.setFont(defaultFont)
+        font4 = QFont()
+        font4.setFamilies([u"Georgia"])
+        font4.setBold(False)
+        self.passLabel.setFont(font4)
 
         self.passLayout.addWidget(self.passLabel)
 
-        # Generate and display password
         self.passTextbox = QLineEdit(self.widget)
         self.passTextbox.setObjectName(u"passTextbox")
-        self.passTextbox.setReadOnly(True)
+        self.passTextbox.setEnabled(False)
 
         self.passLayout.addWidget(self.passTextbox)
+
 
         self.onePassLayout.addLayout(self.passLayout)
 
@@ -172,6 +167,7 @@ class Ui_MainWindow(object):
 
         self.urlLayout.addWidget(self.urlTextbox)
 
+
         self.onePassLayout.addLayout(self.urlLayout)
 
         self.webNameLayout = QHBoxLayout()
@@ -186,14 +182,16 @@ class Ui_MainWindow(object):
 
         self.webNameLayout.addWidget(self.webNameTextbox)
 
+
         self.onePassLayout.addLayout(self.webNameLayout)
+
 
         self.inputLayout.addLayout(self.onePassLayout)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 474, 23))
+        self.menubar.setGeometry(QRect(0, 0, 475, 23))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -205,9 +203,6 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        """
-        Translates UI elements to appropriate text values.
-        """
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Password Generator", None))
         self.passGenButton.setText(QCoreApplication.translate("MainWindow", u"Generate Password", None))
         self.passPromptLabel.setText(QCoreApplication.translate("MainWindow", u"Password Length:", None))
@@ -224,31 +219,5 @@ class Ui_MainWindow(object):
         self.urlTextbox.setText("")
         self.urlTextbox.setPlaceholderText("")
         self.webNameLabel.setText(QCoreApplication.translate("MainWindow", u"Website Name:", None))
-        self.passLengthField.setText(QCoreApplication.translate("MainWindow", f"{config.DEFAULT_LENGTH}", None))
-        self.passLengthField.setFocus()
-        self.passLengthField.selectAll() 
     # retranslateUi
 
-    def generate_password(self):
-        """
-        Generates a random password based on selected criteria and displays it.
-        """
-        try:
-            length = int(self.passLengthField.text())  # Get length from input field
-            if length <= 0:
-                self.passLengthField.setText("Invalid length")
-                return
-            password = gen.password_gen(length,
-                                        upper=self.upperCheck.isChecked(),
-                                        lower=self.lowerCheck.isChecked(),
-                                        numbers=self.numberCheck.isChecked(),
-                                        special=self.specialCheck.isChecked(),
-                                        space=self.spaceCheck.isChecked())  # Call generator function
-            
-            self.passTextbox.setText(password)
-            clipboard = QApplication.clipboard()
-            clipboard.setText(password)
-
-        except ValueError:
-            self.passLengthField.setText("Enter a number")
-            self.passLengthField.selectAll()
