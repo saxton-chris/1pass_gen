@@ -1,6 +1,6 @@
 from PySide6.QtCore import QCoreApplication, QMetaObject, QRect
 from PySide6.QtGui import QFont
-from PySide6.QtWidgets import (QApplication, QCheckBox, QHBoxLayout, QLabel,
+from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QHBoxLayout, QLabel,
     QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget)
 from password_manager import config
 from password_manager import generator as gen
@@ -23,105 +23,18 @@ class Ui_MainWindow(QMainWindow):
         self._setup_buttons()
         self._setup_password_input()
         self._setup_character_options()
+        self._setup_1password_fields()
 
         # Main container for input widgets
         self.widget = QWidget(self.centralwidget)
-        self.widget.setObjectName(u"widget")
         self.widget.setGeometry(QRect(10, 72, 445, 172))
+
         self.inputLayout = QHBoxLayout(self.widget)
-        self.inputLayout.setObjectName(u"inputLayout")
         self.inputLayout.setContentsMargins(0, 0, 0, 0)
         self.inputLayout.addLayout(self.charTypeLayout)
-
-        self.onePassLayout = QVBoxLayout()
-        self.onePassLayout.setObjectName(u"onePassLayout")
-        
-        self.passInfoLabel = QLabel(self.widget)
-        self.passInfoLabel.setObjectName(u"passInfoLabel")
-        self.passInfoLabel.setFont(self.boldFont)
-
-        self.onePassLayout.addWidget(self.passInfoLabel)
-
-        self.vaultLayout = QHBoxLayout()
-        self.vaultLayout.setObjectName(u"vaultLayout")
-        self.vaultLabel = QLabel(self.widget)
-        self.vaultLabel.setObjectName(u"vaultLabel")
-
-        self.vaultLayout.addWidget(self.vaultLabel)
-
-        self.vaultTextbox = QLineEdit(self.widget)
-        self.vaultTextbox.setObjectName(u"vaultTextbox")
-
-        self.vaultLayout.addWidget(self.vaultTextbox)
-
-        self.onePassLayout.addLayout(self.vaultLayout)
-
-        self.userLayout = QHBoxLayout()
-        self.userLayout.setObjectName(u"userLayout")
-        self.userLabel = QLabel(self.widget)
-        self.userLabel.setObjectName(u"userLabel")
-
-        self.userLayout.addWidget(self.userLabel)
-
-        self.userTextbox = QLineEdit(self.widget)
-        self.userTextbox.setObjectName(u"userTextbox")
-
-        self.userLayout.addWidget(self.userTextbox)
-
-        self.onePassLayout.addLayout(self.userLayout)
-
-        self.passLayout = QHBoxLayout()
-        self.passLayout.setObjectName(u"passLayout")
-
-        self.passLabel = QLabel(self.widget)
-        self.passLabel.setObjectName(u"passLabel")
-        self.passLabel.setFont(self.defaultFont)
-
-        self.passLayout.addWidget(self.passLabel)
-
-        # Generate and display password
-        self.passTextbox = QLineEdit(self.widget)
-        self.passTextbox.setObjectName(u"passTextbox")
-        self.passTextbox.setReadOnly(True)
-
-        self.passLayout.addWidget(self.passTextbox)
-
-        self.onePassLayout.addLayout(self.passLayout)
-
-        self.urlLayout = QHBoxLayout()
-        self.urlLayout.setObjectName(u"urlLayout")
-        self.webUrlLayout = QLabel(self.widget)
-        self.webUrlLayout.setObjectName(u"webUrlLayout")
-
-        self.urlLayout.addWidget(self.webUrlLayout)
-
-        self.urlTextbox = QLineEdit(self.widget)
-        self.urlTextbox.setObjectName(u"urlTextbox")
-        self.urlTextbox.setClearButtonEnabled(False)
-
-        self.urlLayout.addWidget(self.urlTextbox)
-
-        self.onePassLayout.addLayout(self.urlLayout)
-
-        self.webNameLayout = QHBoxLayout()
-        self.webNameLayout.setObjectName(u"webNameLayout")
-        self.webNameLabel = QLabel(self.widget)
-        self.webNameLabel.setObjectName(u"webNameLabel")
-
-        self.webNameLayout.addWidget(self.webNameLabel)
-
-        self.webNameTextbox = QLineEdit(self.widget)
-        self.webNameTextbox.setObjectName(u"webNameTextbox")
-
-        self.webNameLayout.addWidget(self.webNameTextbox)
-
-        self.onePassLayout.addLayout(self.webNameLayout)
-
         self.inputLayout.addLayout(self.onePassLayout)
 
         MainWindow.setCentralWidget(self.centralwidget)
-
-        self.retranslateUi()
 
         QMetaObject.connectSlotsByName(MainWindow)
     
@@ -181,20 +94,27 @@ class Ui_MainWindow(QMainWindow):
             self.checkboxes[key] = checkbox
             self.charTypeLayout.addWidget(checkbox)
         
-        # self.leftColumnLayout.addLayout(self.charTypeLayout)
+    def _setup_1password_fields(self):
+        self.onePassLayout = QVBoxLayout()
+        self.onePassLayout.setObjectName(u"onePassLayout")
 
-    def retranslateUi(self):
-        """
-        Translates UI elements to appropriate text values.
-        """
-        self.passPromptLabel.setText(QCoreApplication.translate("MainWindow", u"Password Length:", None))
-        self.charTypeLabel.setText(QCoreApplication.translate("MainWindow", u"Select Character Types:", None))
-        self.passInfoLabel.setText(QCoreApplication.translate("MainWindow", u"1Password Information:", None))
-        self.userLabel.setText(QCoreApplication.translate("MainWindow", u"Username:", None))
-        self.vaultLabel.setText(QCoreApplication.translate("MainWindow", u"1Pass Vault:", None))
-        self.passLabel.setText(QCoreApplication.translate("MainWindow", u"Password:", None))
-        self.webUrlLayout.setText(QCoreApplication.translate("MainWindow", u"Website URL:", None))
-        self.webNameLabel.setText(QCoreApplication.translate("MainWindow", u"Website Name:", None))
+        self.infoLabel = QLabel("1Password Information:")
+        self.infoLabel.setFont(self.boldFont)
+        
+        self.gridLayout = QGridLayout()
+        
+        labels = ["1Pass Vault:", "Username:", "Password:", "Website URL:", "Website Name:"]
+        self.fields = {}
+        
+        for row, text in enumerate(labels):
+            label = QLabel(text)
+            field = QLineEdit()
+            self.gridLayout.addWidget(label, row, 0)
+            self.gridLayout.addWidget(field, row, 1)
+            self.fields[text] = field
+
+        self.onePassLayout.addWidget(self.infoLabel)
+        self.onePassLayout.addLayout(self.gridLayout)
 
     def generate_password(self):
         """
@@ -214,7 +134,7 @@ class Ui_MainWindow(QMainWindow):
                 space=self.checkboxes["spaceCheck"].isChecked()
             )
             
-            self.passTextbox.setText(password)
+            self.fields["Password:"].setText(password)
             clipboard = QApplication.clipboard()
             clipboard.setText(password)
 
