@@ -1,10 +1,11 @@
-from PySide6.QtCore import QCoreApplication, QMetaObject, QRect
+from PySide6.QtCore import QRect
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QHBoxLayout, QLabel,
     QLineEdit, QMainWindow, QPushButton, QVBoxLayout, QWidget)
 from password_manager import config
 from password_manager import generator as gen
-from password_manager.ui import enter_credentials as creds
+from password_manager.ui import enter_credentials as creds 
+from password_manager import onepassword_sync as sync
 
 class Ui_MainWindow(QMainWindow):   
     """
@@ -43,19 +44,19 @@ class Ui_MainWindow(QMainWindow):
 
         self.setCentralWidget(self.centralwidget)
     
-    def _set_fonts(self):
+    def _set_fonts(self) -> None:
         """Sets default fonts for UI elements."""
         self.defaultFont = QFont('Georgia')
         self.boldFont = QFont('Georgia', weight=QFont.Bold)
 
-    def _setup_buttons(self):
+    def _setup_buttons(self) -> None:
         self.passGenButton = QPushButton(text='Generate Password', parent=self.centralwidget)
         self.passGenButton.setObjectName('passGenButton')
         self.passGenButton.setGeometry(QRect(310, 260, 139, 26))
         self.passGenButton.setFont(self.defaultFont)
         self.passGenButton.clicked.connect(self.generate_password)
 
-    def _setup_password_input(self):
+    def _setup_password_input(self) -> None:
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(11, 37, 269, 28))
@@ -75,7 +76,7 @@ class Ui_MainWindow(QMainWindow):
         self.passLengthLayout.addWidget(self.passPromptLabel)
         self.passLengthLayout.addWidget(self.passLengthField)
 
-    def _setup_character_options(self):
+    def _setup_character_options(self) -> None:
         """Creates UI components for selecting character types."""
         self.charTypeLayout = QVBoxLayout()
         self.charTypeLabel = QLabel("Select Character Types:")
@@ -101,7 +102,7 @@ class Ui_MainWindow(QMainWindow):
             self.checkboxes[key] = checkbox
             self.charTypeLayout.addWidget(checkbox)
         
-    def _setup_1password_fields(self):
+    def _setup_1password_fields(self) -> None:
         """Creates input fields related to 1Password integration."""
         self.onePassLayout = QVBoxLayout()
         self.onePassLayout.setObjectName(u"onePassLayout")
@@ -126,10 +127,15 @@ class Ui_MainWindow(QMainWindow):
         self.onePassLayout.addWidget(self.infoLabel)
         self.onePassLayout.addLayout(self.gridLayout)
 
-    def generate_password(self):
+    def generate_password(self) -> None:
         """
         Generates a random password based on selected criteria and displays it.
         """
+        dialog = creds.Ui_dialog()
+        dialog.exec()
+
+        one_username, one_password = dialog.get_credentials()
+
         try:
             length = int(self.passLengthField.text())  # Get length from input field
             if length <= 0:
