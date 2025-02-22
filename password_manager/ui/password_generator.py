@@ -7,17 +7,23 @@ from password_manager import generator as gen
 from password_manager.ui import enter_credentials as creds
 
 class Ui_MainWindow(QMainWindow):   
-    def setupUi(self, MainWindow):
+    """
+    This class defines the UI layout and behavior for the Password Generator application.
+    It allows users to configure password generation settings and view generated passwords.
+    """
+    def __init__(self):
+        """Initializes the Main Window and sets up the UI."""
+        super().__init__()  # Call the parent class constructor
+        self.setupUi()
+    
+    def setupUi(self):
         """
-        This class defines the UI layout and behavior for the Password Generator application
-        using PySide6.
+        Sets up the UI layout for the Password Generator application using PySide6.
         """
         
-        # Set up main window properties
-        MainWindow.setObjectName('MainWindow')
-        MainWindow.setWindowTitle('Password Generator')
-        MainWindow.resize(470, 310)
-        self.centralwidget = QWidget(MainWindow)
+        self.setWindowTitle('Password Generator')
+        self.resize(470, 310)
+        self.centralwidget = QWidget(self)
 
         self._set_fonts()
         self._setup_buttons()
@@ -29,14 +35,13 @@ class Ui_MainWindow(QMainWindow):
         self.widget = QWidget(self.centralwidget)
         self.widget.setGeometry(QRect(10, 72, 445, 172))
 
+        # Layout to arrange character options and 1Password fields
         self.inputLayout = QHBoxLayout(self.widget)
         self.inputLayout.setContentsMargins(0, 0, 0, 0)
         self.inputLayout.addLayout(self.charTypeLayout)
         self.inputLayout.addLayout(self.onePassLayout)
 
-        MainWindow.setCentralWidget(self.centralwidget)
-
-        QMetaObject.connectSlotsByName(MainWindow)
+        self.setCentralWidget(self.centralwidget)
     
     def _set_fonts(self):
         """Sets default fonts for UI elements."""
@@ -79,6 +84,7 @@ class Ui_MainWindow(QMainWindow):
         self.charTypeLayout.addWidget(self.charTypeLabel)
         self.checkboxes = {}
         
+        # Dictionary containing options for character selection
         options = {
             "upperCheck": "Upper Case Letters",
             "lowerCheck": "Lower Case Letters",
@@ -87,6 +93,7 @@ class Ui_MainWindow(QMainWindow):
             "spaceCheck": "Space"
         }
         
+        # Creating checkboxes dynamically based on options
         for key, label in options.items():
             checkbox = QCheckBox(label)
             checkbox.setFont(self.defaultFont)
@@ -95,6 +102,7 @@ class Ui_MainWindow(QMainWindow):
             self.charTypeLayout.addWidget(checkbox)
         
     def _setup_1password_fields(self):
+        """Creates input fields related to 1Password integration."""
         self.onePassLayout = QVBoxLayout()
         self.onePassLayout.setObjectName(u"onePassLayout")
 
@@ -103,9 +111,11 @@ class Ui_MainWindow(QMainWindow):
         
         self.gridLayout = QGridLayout()
         
+        # Labels for 1Password related fields
         labels = ["1Pass Vault:", "Username:", "Password:", "Website URL:", "Website Name:"]
         self.fields = {}
         
+        # Creating input fields dynamically based on labels
         for row, text in enumerate(labels):
             label = QLabel(text)
             field = QLineEdit()
@@ -125,6 +135,7 @@ class Ui_MainWindow(QMainWindow):
             if length <= 0:
                 self.passLengthField.setText("Invalid length")
                 return
+            # Generate password using selected options
             password = gen.password_gen(
                 length,
                 upper=self.checkboxes["upperCheck"].isChecked(),
@@ -134,7 +145,10 @@ class Ui_MainWindow(QMainWindow):
                 space=self.checkboxes["spaceCheck"].isChecked()
             )
             
+            # Display generated password in the corresponding field
             self.fields["Password:"].setText(password)
+            
+            # Copy generated password to clipboard
             clipboard = QApplication.clipboard()
             clipboard.setText(password)
 

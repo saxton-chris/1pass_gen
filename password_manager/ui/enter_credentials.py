@@ -8,84 +8,65 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
-    QLabel, QLineEdit, QSizePolicy, QVBoxLayout,
-    QWidget)
+from PySide6.QtCore import QRect, Qt
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import (QApplication, QDialog, QDialogButtonBox,
+    QLabel, QLineEdit, QVBoxLayout, QWidget)
+import sys
 
 class Ui_dialog(object):
     def setupUi(self, dialog):
-        if not dialog.objectName():
-            dialog.setObjectName(u"dialog")
-        dialog.resize(253, 225)
+        dialog.resize(275, 220)
+        dialog.setWindowTitle("Enter Credentials")
+
         self.widget = QWidget(dialog)
         self.widget.setObjectName(u"widget")
         self.widget.setGeometry(QRect(31, 22, 183, 164))
-        self.verticalLayout = QVBoxLayout(self.widget)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.onePassLabel = QLabel(self.widget)
-        self.onePassLabel.setObjectName(u"onePassLabel")
-        font = QFont()
-        font.setFamilies([u"Georgia"])
-        font.setBold(True)
-        self.onePassLabel.setFont(font)
 
-        self.verticalLayout.addWidget(self.onePassLabel)
+        self._set_fonts()
+        self._setup_labels()
+        self._setup_line_edits()
+        self._setup_button_box()
+        self._set_layout()
 
-        self.userLabel = QLabel(self.widget)
-        self.userLabel.setObjectName(u"userLabel")
-        font1 = QFont()
-        font1.setFamilies([u"Georgia"])
-        self.userLabel.setFont(font1)
-
-        self.verticalLayout.addWidget(self.userLabel)
-
-        self.userTextbox = QLineEdit(self.widget)
-        self.userTextbox.setObjectName(u"userTextbox")
-        self.userTextbox.setFont(font1)
-
-        self.verticalLayout.addWidget(self.userTextbox)
-
-        self.passLabel = QLabel(self.widget)
-        self.passLabel.setObjectName(u"passLabel")
-        self.passLabel.setFont(font1)
-
-        self.verticalLayout.addWidget(self.passLabel)
-
-        self.passTextbox = QLineEdit(self.widget)
-        self.passTextbox.setObjectName(u"passTextbox")
-        self.passTextbox.setFont(font1)
-        self.passTextbox.setEchoMode(QLineEdit.EchoMode.PasswordEchoOnEdit)
-
-        self.verticalLayout.addWidget(self.passTextbox)
-
-        self.buttonBox = QDialogButtonBox(self.widget)
-        self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setFont(font1)
-        self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
-
-        self.verticalLayout.addWidget(self.buttonBox)
-
-
-        self.retranslateUi(dialog)
         self.buttonBox.accepted.connect(dialog.accept)
         self.buttonBox.rejected.connect(dialog.reject)
 
-        QMetaObject.connectSlotsByName(dialog)
-    # setupUi
+    def _set_fonts(self):
+        self.defaultFont = QFont('Georgia')
+        self.boldFont = QFont('Georgia', weight=QFont.Bold)
+    
+    def _setup_labels(self):
+        self.onePassLabel = QLabel("1Password Credentials:")
+        self.onePassLabel.setFont(self.boldFont)
 
-    def retranslateUi(self, dialog):
-        dialog.setWindowTitle(QCoreApplication.translate("dialog", u"Enter Credentials", None))
-        self.onePassLabel.setText(QCoreApplication.translate("dialog", u"1Password Credentials:", None))
-        self.userLabel.setText(QCoreApplication.translate("dialog", u"Username:", None))
-        self.passLabel.setText(QCoreApplication.translate("dialog", u"Password:", None))
-    # retranslateUi
+        self.userLabel = QLabel("Username:")
+        self.userLabel.setFont(self.defaultFont)
 
+        self.passLabel = QLabel("Password:")
+        self.passLabel.setFont(self.defaultFont)
+
+    def _setup_line_edits(self):
+        self.userTextbox = QLineEdit()
+        self.userTextbox.setFont(self.defaultFont)
+
+        self.passTextbox = QLineEdit(echoMode=QLineEdit.EchoMode.Password)
+        self.passTextbox.setFont(self.defaultFont)
+
+    def _setup_button_box(self):
+        self.buttonBox = QDialogButtonBox(orientation=Qt.Orientation.Horizontal,
+                                          standardButtons=QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok
+                                          )
+        self.buttonBox.setFont(self.defaultFont)
+
+    def _set_layout(self):
+        self.verticalLayout = QVBoxLayout(self.widget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+
+        self.verticalLayout.addWidget(self.onePassLabel)
+        self.verticalLayout.addWidget(self.userLabel)
+        self.verticalLayout.addWidget(self.userTextbox)
+        self.verticalLayout.addWidget(self.passLabel)
+        self.verticalLayout.addWidget(self.passTextbox)
+        self.verticalLayout.addWidget(self.buttonBox)
